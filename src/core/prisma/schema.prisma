@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  name         String
+  isActive     Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  appartmentId String?     @unique
+  notes        String?
+  picture      String
+  rol          Roles       @default(tenant)
+  phone        String?     @unique
+  modifierId   String?     @unique
+  order        Order[]
+  appartment   Appartment? @relation(fields: [appartmentId], references: [id])
+
+  @@index([email])
+}
+
+model Building {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  address     String       @unique
+  location    String
+  floors      Int
+  letter      String       @db.Char(1)
+  images      String[]
+  appartments Appartment[]
+
+  @@index([address])
+}
+
+model Appartment {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  buildingId  String
+  floor       Int
+  letter      String   @db.Char(1)
+  observation String
+  building    Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+  orders      Order[]
+  users       User[]
+
+  @@unique([floor, letter, buildingId])
+}
+
+model Product {
+  id          String           @id @default(uuid())
+  name        String
+  images      String[]
+  price       Int
+  stock       Int
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  brand       String
+  description String?
+  onOrders    ProductOnOrder[]
+}
+
+
+enum OrderStatus {
+  paid
+  processing
+  shipped
+  delivered
+  cancelled
+  pending
+}
+
+model Order {
+  id           String           @id @default(uuid())
+  appartmentId String           @unique
+  userId       String?
+  appartment   Appartment?      @relation(fields: [appartmentId], references: [id])
+  customer     User?            @relation(fields: [userId], references: [id])
+  cart         ProductOnOrder[]
+  status       OrderStatus      @default(processing)
+  observation  String?
+}
+
+model ProductOnOrder {
+  id        String  @default(uuid())
+  productId String
+  orderId   String
+  quantity  Int
+  price     Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@unique([productId, orderId])
+}
+
+enum Roles {
+  admin
+  tenant
+  owner
+}
+
+
