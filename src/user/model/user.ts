@@ -1,7 +1,7 @@
 import { ObjectType, Field, Int, ID, HideField, registerEnumType } from '@nestjs/graphql';
 import { Roles } from "@prisma/client";
 import { IsEnum } from 'class-validator';
-import { Appartment } from '../../appartment/model/appartment';
+//import { Appartment } from '../../appartment/model/appartment';
 //import { ValidRoles } from 'src/auth/enums/valid-roles.enum';
 
 registerEnumType( Roles, { name: 'Roles', description: 'Roles validos para el usuario (admin, owner, tenant). ' } )
@@ -52,8 +52,8 @@ export class User {
   @Field( () => ID, { nullable: true, description: 'appartmentId' })
   appartmentId?: string;
 
-  @Field( () => Appartment, { nullable: true, description: 'appartment' })
-  appartment?: Appartment;
+ /*  @Field( () => Appartment, { nullable: true, description: 'appartment' })
+  appartment?: Appartment; */
 
   @Field( {nullable: false} )
   createdAt?: Date;

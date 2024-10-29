@@ -5,6 +5,8 @@ import { WebsocketModule } from './websocket/websocket.module';
 import { WhatsappModule } from './whatsapp/whatsapp.module';
 
 @Module({
-  imports: [GraphqlModule, PrismaModule, WhatsappModule, WebsocketModule],
+  imports: [
+    //GraphqlModule, PrismaModule, WhatsappModule, 
+    WebsocketModule],
 })
 export class CoreModule {}
