@@ -17,6 +17,8 @@ Order Entity
 
 https://railway.app/project/756f9450-bdd3-4088-b751-65183d4d09e2/service/cd87f7d8-5727-4b1d-895b-db3fdbf5cf71
 
+psicojuridica-production.up.railway.app
+
 {
   "cart": [
     {
