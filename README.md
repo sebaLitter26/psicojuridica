@@ -46,7 +46,6 @@ nest g resource terminal --no-spec       (GraphQL code first ,  yes  , yes)
 
 
 ## OAuth2.0
-https://sebalitter.auth0.com/api/v2/users/google-oauth2|101328564217916870964  {{user_id / sub}}
 
 import { decode } from 'jsonwebtoken';
 
